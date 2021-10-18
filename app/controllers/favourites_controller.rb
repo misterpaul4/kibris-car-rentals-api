@@ -8,26 +8,12 @@ class FavouritesController < ApplicationController
     render json: @favourites
   end
 
-  # GET /favourites/1
-  def show
-    render json: @favourite
-  end
-
   # POST /favourites
   def create
     @favourite = Favourite.new(favourite_params)
 
     if @favourite.save
       render json: @favourite, status: :created, location: @favourite
-    else
-      render json: @favourite.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /favourites/1
-  def update
-    if @favourite.update(favourite_params)
-      render json: @favourite
     else
       render json: @favourite.errors, status: :unprocessable_entity
     end
