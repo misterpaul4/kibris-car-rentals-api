@@ -12,6 +12,7 @@ class CreateCars < ActiveRecord::Migration[6.1]
       t.string :status
       t.string :manufacturer
       t.string :model
+      t.string :image_url
 
       t.references :uploader
 

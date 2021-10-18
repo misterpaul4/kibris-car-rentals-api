@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_03_214345) do
+ActiveRecord::Schema.define(version: 2021_10_03_213856) do
 
   create_table "cars", force: :cascade do |t|
     t.decimal "three_day_rental_price", precision: 18, scale: 2
@@ -24,23 +24,17 @@ ActiveRecord::Schema.define(version: 2021_10_03_214345) do
     t.string "status"
     t.string "manufacturer"
     t.string "model"
+    t.string "image_url"
     t.integer "uploader_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uploader_id"], name: "index_cars_on_uploader_id"
   end
 
-  create_table "cars_favourites", id: false, force: :cascade do |t|
-    t.integer "car_id"
-    t.integer "favourite_id"
-    t.index ["car_id"], name: "index_cars_favourites_on_car_id"
-    t.index ["favourite_id"], name: "index_cars_favourites_on_favourite_id"
-  end
-
   create_table "favourites", force: :cascade do |t|
     t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.integer "car_id"
+    t.index ["car_id"], name: "index_favourites_on_car_id"
     t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 
@@ -48,6 +42,9 @@ ActiveRecord::Schema.define(version: 2021_10_03_214345) do
     t.string "username"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "favourites", "cars"
+  add_foreign_key "favourites", "users"
 end
