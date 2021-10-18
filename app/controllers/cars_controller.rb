@@ -1,5 +1,5 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: [:show, :update, :destroy]
+  before_action :set_car, only: [:show, :update, :destroy, :car_favourites]
 
   # GET /cars
   def index
@@ -7,6 +7,12 @@ class CarsController < ApplicationController
 
     # render json: @cars, only: [:delivery]
     render json: @cars
+  end
+
+  def car_favourites
+    @favourites = @car.favourites
+
+    render json: @favourites
   end
 
   # GET /cars/1
