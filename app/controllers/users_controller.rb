@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: %i[show update destroy uploaded_cars favourite_cars]
 
   # GET /users
   def index
@@ -11,6 +11,18 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     render json: @user
+  end
+
+  def uploaded_cars
+    @cars = @user.cars_uploaded
+
+    render json: @cars
+  end
+
+  def favourite_cars
+    @favourites = @user.favourites
+
+    render json: @favourites
   end
 
   # POST /users
@@ -39,13 +51,14 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.fetch(:user, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def user_params
+    params.fetch(:user, {})
+  end
 end
