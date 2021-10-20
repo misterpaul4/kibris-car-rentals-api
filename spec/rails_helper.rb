@@ -21,7 +21,7 @@ RSpec.configure do |config|
     end
   end
 
-   # add `FactoryBot` methods
+  # add `FactoryBot` methods
   config.include FactoryBot::Syntax::Methods
 
   # start by truncating all the tables but then use the faster transaction strategy the rest of the time.
@@ -29,5 +29,4 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.strategy = :transaction
   end
-
 end

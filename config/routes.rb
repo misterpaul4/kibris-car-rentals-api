@@ -7,4 +7,3 @@ Rails.application.routes.draw do
   get 'users/(:id)/favourites', to: 'users#favourite_cars'
   get 'cars/(:id)/favourites', to: 'cars#car_favourites'
 end
-
