@@ -30,7 +30,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'sqlite3', '~> 1.4'
   gem 'rspec-rails', '~> 4.0.1'
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers'
+  gem 'rubocop-rspec'
 end
 
 group :development do
