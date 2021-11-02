@@ -54,6 +54,19 @@ class CarsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def car_params
-    params.fetch(:car, {})
+    params.permit(
+      :delivery,
+      :three_day_rental_price,
+      :one_week_rental_price,
+      :one_month_rental_price,
+      :fuel_type,
+      :rental_requirements,
+      :terms_and_conditions,
+      :rental_company,
+      :status,
+      :manufacturer,
+      :model,
+      :image_url
+    )
   end
 end
