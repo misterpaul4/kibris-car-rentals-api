@@ -33,6 +33,7 @@ class FavouritesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def favourite_params
-    params.fetch(:favourite, {})
+    # params.fetch(:favourite, {})
+    params.permit(:car_id, :user_id)
   end
 end

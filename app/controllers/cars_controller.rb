@@ -1,5 +1,6 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: %i[show update destroy car_favourites]
+  before_action :set_car, only: %i[show update destroy]
+  # before_action :set_car, only: %i[show update destroy car_favourites, add_to_favourite]
 
   # GET /cars
   def index
@@ -9,11 +10,17 @@ class CarsController < ApplicationController
     render json: @cars
   end
 
-  def car_favourites
-    @favourites = @car.favourites
+  # def car_favourites
+  #   @favourites = @car.favourites
 
-    render json: @favourites
-  end
+  #   render json: @favourites
+  # end
+
+  # def add_to_favourite
+  #   @favourite = current_user.favourites.create(@car)
+
+  #   render json: @favourite
+  # end
 
   # GET /cars/1
   def show
@@ -66,7 +73,8 @@ class CarsController < ApplicationController
       :status,
       :manufacturer,
       :model,
-      :image_url
+      :image_url,
+      :uploader_id
     )
   end
 end
