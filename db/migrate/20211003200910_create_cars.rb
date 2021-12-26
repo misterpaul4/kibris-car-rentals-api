@@ -4,6 +4,7 @@ class CreateCars < ActiveRecord::Migration[6.1]
       t.decimal :three_day_rental_price
       t.decimal :one_week_rental_price
       t.decimal :one_month_rental_price
+      t.decimal :daily_rental_price
       t.string :delivery
       t.string :fuel_type
       t.text :rental_requirements
@@ -13,6 +14,7 @@ class CreateCars < ActiveRecord::Migration[6.1]
       t.string :manufacturer
       t.string :model
       t.string :image_url
+      t.string :currency
 
       t.references :uploader
 
