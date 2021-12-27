@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy uploaded_cars favourite_cars]
 
+  before_action :authorize_request, except: :create
+  before_action :find_user, except: %i[create index]
+
   # GET /users
   def index
     @users = User.all
@@ -54,12 +57,14 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by_username!(params[:_username])
+    rescue ActiveRecord::RecordNotFound
+      render json: { errors: 'User not found' }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.
   def user_params
     # params.fetch(:user, {})
-    params.permit(:username)
+    params.permit(:username, :role, :password, :password_confirmation)
   end
 end

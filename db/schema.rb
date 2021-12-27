@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2021_10_03_213856) do
     t.decimal "three_day_rental_price"
     t.decimal "one_week_rental_price"
     t.decimal "one_month_rental_price"
+    t.decimal "daily_rental_price"
     t.string "delivery"
     t.string "fuel_type"
     t.text "rental_requirements"
@@ -25,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_10_03_213856) do
     t.string "manufacturer"
     t.string "model"
     t.string "image_url"
+    t.string "currency"
     t.integer "uploader_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -40,6 +42,8 @@ ActiveRecord::Schema.define(version: 2021_10_03_213856) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
+    t.string "password_digest"
+    t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["username"], name: "index_users_on_username", unique: true
