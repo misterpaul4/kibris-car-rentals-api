@@ -39,7 +39,8 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/username
   def update
-    if @current_user.update(user_params)
+    # user cannot change role after signing up
+    if @current_user.update(username: user_params[:username], password: user_params[:password])
       render json: @current_user
     else
       render json: @current_user.errors, status: :unprocessable_entity
