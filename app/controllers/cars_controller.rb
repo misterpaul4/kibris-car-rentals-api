@@ -1,5 +1,7 @@
 class CarsController < ApplicationController
   before_action :set_car, only: %i[show update destroy]
+
+  before_action :authorize_request
   # before_action :set_car, only: %i[show update destroy car_favourites, add_to_favourite]
 
   # GET /cars

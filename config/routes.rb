@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, param: :_username, only: %i[index destroy update]
+  resources :users, param: :_username, only: %i[destroy update show]
   resources :cars
   resources :favourites
 
@@ -7,6 +7,6 @@ Rails.application.routes.draw do
 
   post 'login', to: 'authentication#login'
 
-  get 'users/(:id)/cars_uploaded', to: 'users#uploaded_cars'
-  get 'users/(:id)/favourites', to: 'users#favourite_cars'  
+  get 'users/(:_username)/cars_uploaded', to: 'users#uploaded_cars'
+  get 'users/(:_username)/favourites', to: 'users#favourite_cars'  
 end
