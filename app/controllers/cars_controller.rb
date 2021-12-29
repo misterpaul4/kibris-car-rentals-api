@@ -1,8 +1,8 @@
 class CarsController < ApplicationController
   before_action :set_car, only: %i[show update destroy]
-
-  before_action :authorize_request
-  # before_action :set_car, only: %i[show update destroy car_favourites, add_to_favourite]
+  before_action :authorize_request, except: %i[index show]
+  before_action :check_role, only: %i[create destroy update]
+  before_action :check_uploader, only: %i[destroy update]
 
   # GET /cars
   def index
@@ -12,18 +12,6 @@ class CarsController < ApplicationController
     render json: @cars
   end
 
-  # def car_favourites
-  #   @favourites = @car.favourites
-
-  #   render json: @favourites
-  # end
-
-  # def add_to_favourite
-  #   @favourite = current_user.favourites.create(@car)
-
-  #   render json: @favourite
-  # end
-
   # GET /cars/1
   def show
     render json: @car
@@ -31,7 +19,7 @@ class CarsController < ApplicationController
 
   # POST /cars
   def create
-    @car = Car.new(car_params)
+    @car = @current_user.cars_uploaded.build(car_params)
 
     if @car.save
       render json: @car, status: :created, location: @car
@@ -76,7 +64,18 @@ class CarsController < ApplicationController
       :manufacturer,
       :model,
       :image_url,
-      :uploader_id
     )
+  end
+
+  def check_role
+    unless @current_user.role == 'admin'
+      render json: { errors: "unathorized, you must be an admin" }, status: :unauthorized 
+    end
+  end
+
+  def check_uploader
+    unless @current_user.id == @car.uploader_id
+      render json: { errors: "unathorized, car belongs to a different admin" }, status: :unauthorized 
+    end
   end
 end

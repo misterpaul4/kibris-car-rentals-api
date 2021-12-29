@@ -1,16 +1,11 @@
 class FavouritesController < ApplicationController
   before_action :set_favourite, only: %i[show update destroy]
-
-  # GET /favourites
-  def index
-    @favourites = Favourite.all
-
-    render json: @favourites
-  end
+  before_action :authorize_request
+  before_action :check_user, only: %i[destroy]
 
   # POST /favourites
   def create
-    @favourite = Favourite.new(favourite_params)
+    @favourite = @current_user.favourites.build(favourite_params)
 
     if @favourite.save
       render json: @favourite, status: :created, location: @favourite
@@ -33,7 +28,12 @@ class FavouritesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def favourite_params
-    # params.fetch(:favourite, {})
-    params.permit(:car_id, :user_id)
+    params.permit(:car_id)
+  end
+
+  def check_user
+    unless @current_user.id == @favourite.user_id
+      render json: { errors: "unathorized" }, status: :unauthorized 
+    end
   end
 end

@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy uploaded_cars favourite_cars]
 
   before_action :authorize_request, except: :create
+  before_action :check_param_token, except: :create
 
   # GET /users
   # def index
@@ -15,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def uploaded_cars
-    @cars = @user.cars_uploaded
+    @cars = @current_user.cars_uploaded
 
     render json: @cars
   end
@@ -65,5 +66,11 @@ class UsersController < ApplicationController
   def user_params
     # params.fetch(:user, {})
     params.permit(:username, :password, :password_confirmation, :role)
+  end
+
+  def check_param_token
+    unless @current_user.eql? @user
+      render json: { errors: "invalid token for #{@user.username}" }, status: :unauthorized
+    end
   end
 end
