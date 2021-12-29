@@ -4,13 +4,6 @@ class UsersController < ApplicationController
   before_action :authorize_request, except: :create
   before_action :check_param_token, except: :create
 
-  # GET /users
-  # def index
-  #   @users = User.all
-
-  #   render json: @users
-  # end
-
   def show
     render json: @current_user
   end
