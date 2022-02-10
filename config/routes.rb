@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, param: :_username, only: %i[destroy update show]
+  resources :users, param: :_username, only: %i[destroy update show index]
   resources :cars
   resources :favourites
 

@@ -1,8 +1,14 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy uploaded_cars favourite_cars]
 
-  before_action :authorize_request, except: :create
-  before_action :check_param_token, except: :create
+  before_action :authorize_request, except: %i[create index]
+  before_action :check_param_token, except: %i[create index]
+
+  def index
+    @users = User.all
+
+    render json: @users
+  end
 
   def show
     render json: @current_user
@@ -27,7 +33,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user, status: :created, location: @user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: {error: @user.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 
@@ -52,18 +58,17 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find_by_username!(params[:_username])
     rescue ActiveRecord::RecordNotFound
-      render json: { errors: 'User not found' }, status: :not_found
+      render json: { error: 'User not found' }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.
   def user_params
-    # params.fetch(:user, {})
     params.permit(:username, :password, :password_confirmation, :role)
   end
 
   def check_param_token
     unless @current_user.eql? @user
-      render json: { errors: "invalid token for #{@user.username}" }, status: :unauthorized
+      render json: { error: "invalid token for #{@user.username}" }, status: :unauthorized
     end
   end
 end
