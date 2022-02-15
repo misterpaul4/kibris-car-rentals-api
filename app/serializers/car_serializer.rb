@@ -8,12 +8,17 @@ class CarSerializer < ActiveModel::Serializer
   :rental_requirements, 
   :terms_and_conditions, 
   :rental_company,
-  :status,
+  :availability,
   :manufacturer,
   :model,
   :image_url,
   :daily_rental_price,
-  :currency
+  :currency,
+  :car_vin,
+  :model_year,
+  :uploader,
+  :updated_at,
+  :created_at
   # belongs_to :uploader, class_name: 'User'
   # has_many :favourites
 end

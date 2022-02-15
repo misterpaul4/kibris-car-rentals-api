@@ -20,6 +20,7 @@ class CarsController < ApplicationController
   # POST /cars
   def create
     @car = @current_user.cars_uploaded.build(car_params)
+    @car.rental_company = @current_user.company_name
 
     if @car.save
       render json: @car, status: :created, location: @car
@@ -59,11 +60,14 @@ class CarsController < ApplicationController
       :fuel_type,
       :rental_requirements,
       :terms_and_conditions,
-      :rental_company,
-      :status,
+      :availability,
       :manufacturer,
       :model,
       :image_url,
+      :currency,
+      :car_vin,
+      :model_year,
+      :daily_rental_price
     )
   end
 

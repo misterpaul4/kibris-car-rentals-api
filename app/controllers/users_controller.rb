@@ -29,18 +29,19 @@ class UsersController < ApplicationController
   # POST /signup
   def create
     @user = User.new(user_params)
+    @user.company_name = nil if @user.role == 'user'
 
     if @user.save
       render json: @user, status: :created, location: @user
     else
-      render json: {error: @user.errors.full_messages.to_sentence}, status: :unprocessable_entity
+      render json: {errors: @user.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /users/username
   def update
     # user cannot change role after signing up
-    if @current_user.update(username: user_params[:username], password: user_params[:password])
+    if @current_user.update(username: user_params[:username], password: user_params[:password], company_name: user_params[:company_name])
       render json: @current_user
     else
       render json: @current_user.errors, status: :unprocessable_entity
@@ -58,17 +59,17 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find_by_username!(params[:_username])
     rescue ActiveRecord::RecordNotFound
-      render json: { error: 'User not found' }, status: :not_found
+      render json: { errors: 'User not found' }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.permit(:username, :password, :password_confirmation, :role)
+    params.permit(:username, :password, :password_confirmation, :role, :company_name)
   end
 
   def check_param_token
     unless @current_user.eql? @user
-      render json: { error: "invalid token for #{@user.username}" }, status: :unauthorized
+      render json: { errors: "invalid token for #{@user.username}" }, status: :unauthorized
     end
   end
 end

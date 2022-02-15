@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 
   get 'users/(:_username)/cars_uploaded', to: 'users#uploaded_cars'
   get 'users/(:_username)/favourites', to: 'users#favourite_cars'  
+
+  # patch 'cars/(:id)/apply', to: 'cars#apply_to_rent'
 end

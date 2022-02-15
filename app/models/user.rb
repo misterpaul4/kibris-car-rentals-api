@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
 
   validates :username, presence: true, uniqueness: true
-  validates :password, presence: true
-  validates :role, presence: true
+  validates :password, presence: true, length: { minimum: 5 }
+  validates :role, presence: true, inclusion: { in: %w(user admin) }
+  validates :company_name, presence: true, if: -> {role == 'admin'}
 end

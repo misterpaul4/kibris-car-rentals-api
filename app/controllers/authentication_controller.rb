@@ -11,10 +11,10 @@ class AuthenticationController < ApplicationController
         render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
                        username: @user.username }, status: :ok
       else
-        render json: { error: 'incorrect password' }, status: :unauthorized
+        render json: { errors: 'incorrect password' }, status: :unauthorized
       end
     rescue ActiveRecord::RecordNotFound => e
-      render json: { error: 'incorrect login credentials' }, status: :not_found
+      render json: { errors: 'incorrect login credentials' }, status: :not_found
     end
   end
 
