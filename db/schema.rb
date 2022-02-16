@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2022_02_15_233221) do
     t.integer "car_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["applicant_id", "car_id"], name: "index_waiting_lists_on_applicant_id_and_car_id", unique: true
     t.index ["applicant_id"], name: "index_waiting_lists_on_applicant_id"
     t.index ["car_id"], name: "index_waiting_lists_on_car_id"
   end

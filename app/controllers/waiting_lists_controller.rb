@@ -13,13 +13,16 @@ class WaitingListsController < ApplicationController
 
   # POST /waiting_lists
   def create
-    # @waiting_list = WaitingList.new(waiting_list_params)
+    begin
     @waiting_list = @current_user.waiting_lists.build(waiting_list_params)
 
     if @waiting_list.save
       render json: @waiting_list, status: :created, location: @waiting_list
     else
       render json: @waiting_list.errors, status: :unprocessable_entity
+    end
+    rescue ActiveRecord::RecordNotUnique => e
+      render json: { errors: 'user already on the waiting list' }, status: :forbidden
     end
   end
 
