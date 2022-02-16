@@ -5,7 +5,7 @@ class CreateFavourites < ActiveRecord::Migration[6.1]
       t.references :car
     end
 
-    add_foreign_key :favourites, :users, column: :user_id
-    add_foreign_key :favourites, :cars, column: :car_id
+      add_foreign_key :favourites, :users, column: :user_id
+      add_foreign_key :favourites, :cars, column: :car_id
   end
 end

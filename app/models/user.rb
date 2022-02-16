@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :cars_uploaded, foreign_key: 'uploader_id', class_name: 'Car', dependent: :destroy
   has_many :favourites, dependent: :destroy
+  has_many :waiting_lists, foreign_key: 'applicant_id', class_name: 'WaitingList', dependent: :destroy
 
 
   validates :username, presence: true, uniqueness: true

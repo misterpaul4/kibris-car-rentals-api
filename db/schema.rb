@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_03_213856) do
+ActiveRecord::Schema.define(version: 2022_02_15_233221) do
 
   create_table "cars", force: :cascade do |t|
     t.decimal "three_day_rental_price"
@@ -52,6 +52,17 @@ ActiveRecord::Schema.define(version: 2021_10_03_213856) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "waiting_lists", force: :cascade do |t|
+    t.integer "applicant_id"
+    t.integer "car_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["applicant_id"], name: "index_waiting_lists_on_applicant_id"
+    t.index ["car_id"], name: "index_waiting_lists_on_car_id"
+  end
+
   add_foreign_key "favourites", "cars"
   add_foreign_key "favourites", "users"
+  add_foreign_key "waiting_lists", "cars"
+  add_foreign_key "waiting_lists", "users", column: "applicant_id"
 end
