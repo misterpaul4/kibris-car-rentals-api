@@ -21,4 +21,6 @@ class CarSerializer < ActiveModel::Serializer
   :created_at
   # belongs_to :uploader, class_name: 'User'
   # has_many :favourites
+
+  has_many :waiting_lists
 end

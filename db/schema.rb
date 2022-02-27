@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_15_233221) do
+ActiveRecord::Schema.define(version: 2022_02_25_182501) do
 
   create_table "cars", force: :cascade do |t|
     t.decimal "three_day_rental_price"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2022_02_15_233221) do
     t.integer "user_id"
     t.integer "car_id"
     t.index ["car_id"], name: "index_favourites_on_car_id"
+    t.index ["user_id", "car_id"], name: "index_favourites_on_user_id_and_car_id", unique: true
     t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 

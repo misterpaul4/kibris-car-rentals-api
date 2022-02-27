@@ -1,5 +1,5 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: %i[show update destroy]
+  before_action :set_car, only: %i[show update destroy check_waiting_list get_waiting_list]
   before_action :authorize_request, except: %i[index show]
   before_action :check_role, only: %i[create destroy update]
   before_action :check_uploader, only: %i[destroy update]
@@ -15,6 +15,19 @@ class CarsController < ApplicationController
   # GET /cars/1
   def show
     render json: @car
+  end
+
+  def check_waiting_list
+    waitingList = @car.in_waiting_list?(@current_user)
+
+    render json: waitingList.present?
+  end
+
+  # GET /cars/1/waiting_list
+  def get_waiting_list
+    waitingList = @car.waiting_lists
+
+    render json: waitingList
   end
 
   # POST /cars

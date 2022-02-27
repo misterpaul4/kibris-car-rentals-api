@@ -9,5 +9,9 @@ Rails.application.routes.draw do
   post 'login', to: 'authentication#login'
 
   get 'users/(:_username)/cars_uploaded', to: 'users#uploaded_cars'
-  get 'users/(:_username)/favourites', to: 'users#favourite_cars'  
+  get 'users/(:_username)/favourites', to: 'users#favourite_cars'
+
+  get 'cars/(:id)/is_waiting', to: 'cars#check_waiting_list'
+
+  get 'cars/(:id)/waiting_list', to: 'cars#get_waiting_list'
 end

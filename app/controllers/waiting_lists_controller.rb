@@ -46,7 +46,8 @@ class WaitingListsController < ApplicationController
   def check_admin_role
     begin
     @car = Car.find(params[:car_id])
-    unless @current_user == @car.uploader
+    # check if car owner(admin) or applicant
+    unless @current_user == @car.uploader || @waiting_list.applicant == @current_user
       render json: { errors: "unathorized, only an authorized admin can remove a user from the waiting list" }, status: :unauthorized
     end
     rescue ActiveRecord::RecordNotFound => e

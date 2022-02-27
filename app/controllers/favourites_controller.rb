@@ -3,14 +3,24 @@ class FavouritesController < ApplicationController
   before_action :authorize_request
   before_action :check_user, only: %i[destroy]
 
+  def index
+    @favourite = Favourite.all
+
+    render json: @favourite
+  end
+
   # POST /favourites
   def create
-    @favourite = @current_user.favourites.build(favourite_params)
+    begin
+      @favourite = @current_user.favourites.build(favourite_params)
 
-    if @favourite.save
-      render json: @favourite, status: :created, location: @favourite
-    else
-      render json: @favourite.errors, status: :unprocessable_entity
+      if @favourite.save
+        render json: @favourite, status: :created, location: @favourite
+      else
+        render json: @favourite, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordNotUnique => e
+      render json: {errors: 'record already exist'}, status: :forbidden
     end
   end
 
@@ -34,6 +44,6 @@ class FavouritesController < ApplicationController
   def check_user
     unless @current_user.id == @favourite.user_id
       render json: { errors: "unathorized" }, status: :unauthorized 
-    end
+    end 
   end
 end
