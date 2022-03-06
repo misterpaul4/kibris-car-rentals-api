@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show update destroy uploaded_cars favourite_cars]
-
+  before_action :set_user, only: %i[show update destroy uploaded_cars favourite_cars favourite_cars_ids cars_favs]
   before_action :authorize_request, except: %i[create index]
   before_action :check_param_token, except: %i[create index]
 
@@ -8,6 +7,16 @@ class UsersController < ApplicationController
     @users = User.all
 
     render json: @users
+  end
+
+  def cars_favs
+    @cars = Car.all
+    @favourites = @current_user.favourites
+
+    render json: {
+      cars: Car.all,
+      favourites: @favourites
+    }
   end
 
   def show
@@ -20,6 +29,7 @@ class UsersController < ApplicationController
     render json: @cars
   end
 
+# GET users/(:_username)/favourites
   def favourite_cars
     @favourites = @current_user.favourites
 

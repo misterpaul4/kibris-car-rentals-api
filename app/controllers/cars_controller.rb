@@ -7,8 +7,7 @@ class CarsController < ApplicationController
   # GET /cars
   def index
     @cars = Car.all
-
-    # render json: @cars, only: [:delivery]
+    
     render json: @cars
   end
 
@@ -28,6 +27,12 @@ class CarsController < ApplicationController
     waitingList = @car.waiting_lists
 
     render json: waitingList
+  end
+
+  def favourited?
+    @favourite = @current_user.favourites.where(car_id: @car.id)
+
+    render json: @favourite.present?
   end
 
   # POST /cars
