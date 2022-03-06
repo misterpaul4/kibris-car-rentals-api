@@ -13,7 +13,7 @@ class FavouritesController < ApplicationController
       @favourite = @current_user.favourites.build(favourite_params)
 
       if @favourite.save
-        render json: @favourite, only: :car, status: :created, location: @favourite
+        render json: @favourite, status: :created
       else
         render json: @favourite, status: :unprocessable_entity
       end
@@ -22,8 +22,8 @@ class FavouritesController < ApplicationController
     end
   end
 
-
-  def remove_user_favourites
+  # DELETE /favourites
+  def destroy
     @favourite = @current_user.favourites.where(car_id: favourite_params[:car_id])[0]
     @favourite.destroy
   end

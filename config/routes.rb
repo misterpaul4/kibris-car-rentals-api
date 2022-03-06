@@ -19,5 +19,5 @@ Rails.application.routes.draw do
 
   get 'cars/(:id)/waiting_list', to: 'cars#get_waiting_list'
 
-  delete 'favourites/remove_user_favourite', to: 'favourites#remove_user_favourites'
+  delete 'favourites/', to: 'favourites#destroy'
 end
