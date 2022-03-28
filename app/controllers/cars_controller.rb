@@ -1,5 +1,5 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: %i[show update destroy check_waiting_list get_waiting_list]
+  before_action :set_car, only: %i[show update destroy check_waiting_list get_waiting_list car_fav favourited?]
   before_action :authorize_request, except: %i[index show]
   before_action :check_role, only: %i[create destroy update]
   before_action :check_uploader, only: %i[destroy update]
@@ -14,6 +14,17 @@ class CarsController < ApplicationController
   # GET /cars/1
   def show
     render json: @car
+  end
+
+  # GET /cars/1/fav
+  def car_fav
+    @favourite = @current_user.favourites.where(car_id: @car.id)
+
+    render json: {
+      car: @car,
+      waiting_list: @car.waiting_lists.where(applicant_id: @current_user.id).present?,
+      favourited: @favourite.present?
+    }
   end
 
   def check_waiting_list

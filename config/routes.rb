@@ -10,7 +10,10 @@ Rails.application.routes.draw do
 
   get 'favourited/cars/(:id)', to: 'cars#favourited?'
 
+  get 'cars/(:id)/fav', to: 'cars#car_fav'
+
   get 'users/(:_username)/cars_uploaded', to: 'users#uploaded_cars'
+  
   get 'users/(:_username)/favourites', to: 'users#favourite_cars'
 
   get 'cars_favs/(:_username)', to: 'users#cars_favs'
