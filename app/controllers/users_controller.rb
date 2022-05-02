@@ -42,7 +42,13 @@ class UsersController < ApplicationController
     @user.company_name = nil if @user.role == 'user'
 
     if @user.save
-      render json: @user, status: :created, location: @user
+        token = JsonWebToken.encode(user_id: @user.id)
+        time = Time.now + 24.hours.to_i
+        render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
+                       username: @user.username, role: @user.role, id: @user.id,
+                       company_name: @user.company_name },
+                       status: :created
+
     else
       render json: {errors: @user.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
