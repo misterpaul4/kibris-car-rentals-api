@@ -2,7 +2,7 @@ class CarsController < ApplicationController
   before_action :set_car, only: %i[show update destroy check_waiting_list get_waiting_list car_fav favourited?]
   before_action :authorize_request, except: %i[index show]
   before_action :check_role, only: %i[create destroy update]
-  before_action :check_uploader, only: %i[destroy update]
+  before_action :check_uploader, only: %i[destroy update get_waiting_list]
 
   # GET /cars
   def index

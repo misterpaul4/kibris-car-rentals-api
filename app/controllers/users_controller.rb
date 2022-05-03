@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   # POST /signup
   def create
     @user = User.new(user_params)
-    @user.company_name = nil if @user.role == 'user'
+    @user.company_name = '' if @user.role == 'user'
 
     if @user.save
         token = JsonWebToken.encode(user_id: @user.id)
